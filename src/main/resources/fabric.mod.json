@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "consistentimprovements",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Consistent Improvements",
+  "description": "Thats.. Thats it.. It just improves the game consistently",
   "authors": [
-    "Me!"
+    "MisterSirCode"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/Little-Java-Modding-Site/Consistent-Improvements"
   },
 
   "license": "CC0-1.0",
@@ -19,12 +19,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "net.scmods.Main"
     ]
   },
-  "mixins": [
-    "modid.mixins.json"
-  ],
+  "mixins": [ ],
 
   "depends": {
     "fabricloader": ">=0.14.11",
