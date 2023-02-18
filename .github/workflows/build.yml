@@ -37,6 +37,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Jar Artifact
-          path: |
-            !build/libs/*-sources.jar
-            build/libs/*.jar
+          path: build/libs/
