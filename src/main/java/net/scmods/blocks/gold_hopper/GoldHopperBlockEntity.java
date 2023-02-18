@@ -44,6 +44,11 @@ public class GoldHopperBlockEntity extends LootableContainerBlockEntity implemen
         this.transferCooldown = -1;
     }
 
+    @Override
+    public BlockEntityType<?> getType() {
+        return Main.GOLD_HOPPER_ENTITY;
+    }
+
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
