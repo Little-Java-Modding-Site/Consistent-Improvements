@@ -40,8 +40,8 @@ public class GoldHopperBlockEntity extends LootableContainerBlockEntity implemen
 
     public GoldHopperBlockEntity(BlockPos pos, BlockState state) {
         super(Main.GOLD_HOPPER_ENTITY, pos, state);
-        this.inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
-        this.transferCooldown = -1;
+        this.inventory = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
+        this.transferCooldown = TRANSFER_COOLDOWN;
     }
 
     @Override
@@ -266,7 +266,7 @@ public class GoldHopperBlockEntity extends LootableContainerBlockEntity implemen
                                 j = 1;
                             }
                         }
-                        hopperBlockEntity.setTransferCooldown(8 - j);
+                        hopperBlockEntity.setTransferCooldown(TRANSFER_COOLDOWN - j);
                     }
                 }
                 to.markDirty();
@@ -360,7 +360,7 @@ public class GoldHopperBlockEntity extends LootableContainerBlockEntity implemen
     }
 
     private boolean isDisabled() {
-        return this.transferCooldown > 8;
+        return this.transferCooldown > TRANSFER_COOLDOWN;
     }
 
     protected DefaultedList<ItemStack> getInvStackList() {
