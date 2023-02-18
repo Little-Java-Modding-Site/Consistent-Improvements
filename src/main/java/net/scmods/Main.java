@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.block.v1.FabricBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
@@ -27,6 +28,8 @@ public class Main implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		Registry.register(Registries.BLOCK, new Identifier(MODID, "gold_hopper"), GOLD_HOPPER);
+		GOLD_HOPPER_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "gold_hopper_entity"),
+				FabricBlockEntityTypeBuilder.create(GoldHopperBlockEntity::new, GOLD_HOPPER).build());
 		Registry.register(Registries.ITEM, new Identifier(MODID, "gold_hopper"), GOLD_HOPPER_ITEM);
 
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> {
