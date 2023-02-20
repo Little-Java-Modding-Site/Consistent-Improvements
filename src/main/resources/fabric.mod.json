@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "net.scmods.Main"
+    ],
+    "client": [
+      "net.scmods.MainClient"
     ]
   },
   "mixins": [ ],

@@ -266,7 +266,6 @@ public class GoldHopperBlockEntity extends LootableContainerBlockEntity implemen
                                 j = 1;
                             }
                         }
-                        hopperBlockEntity.setTransferCooldown(TRANSFER_COOLDOWN - j);
                     }
                 }
                 to.markDirty();
