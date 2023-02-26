@@ -6,8 +6,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.property.BooleanProperty;
@@ -72,25 +74,11 @@ public class GoldHopperBlock extends BlockWithEntity {
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         Direction direction = ctx.getSide().getOpposite();
-        return (BlockState)((BlockState)this.getDefaultState().with(FACING, direction.getAxis() == Direction.Axis.Y ? Direction.DOWN : direction)).with(ENABLED, true);
+        return (this.getDefaultState().with(FACING, direction.getAxis() == Direction.Axis.Y ? Direction.DOWN : direction)).with(ENABLED, true);
     }
 
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new GoldHopperBlockEntity(pos, state);
-    }
-
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : HopperBlock.checkType(type, Main.GOLD_HOPPER_ENTITY, GoldHopperBlockEntity::serverTick);
-    }
-
-    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        if (itemStack.hasCustomName()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof GoldHopperBlockEntity) {
-                ((GoldHopperBlockEntity)blockEntity).setCustomName(itemStack.getName());
-            }
-        }
     }
 
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
@@ -100,16 +88,14 @@ public class GoldHopperBlock extends BlockWithEntity {
     }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient) {
-            return ActionResult.SUCCESS;
-        } else {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof GoldHopperBlockEntity) {
-                player.openHandledScreen((GoldHopperBlockEntity)blockEntity);
+        if (!world.isClient) {
+            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
+            if (screenHandlerFactory != null) {
+                player.openHandledScreen(screenHandlerFactory);
                 player.incrementStat(Stats.INSPECT_HOPPER);
             }
-            return ActionResult.CONSUME;
         }
+        return ActionResult.SUCCESS;
     }
 
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
@@ -124,10 +110,10 @@ public class GoldHopperBlock extends BlockWithEntity {
     }
 
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (!state.isOf(newState.getBlock())) {
+        if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof GoldHopperBlockEntity) {
-                ItemScatterer.spawn(world, pos, (GoldHopperBlockEntity)blockEntity);
+                ItemScatterer.spawn(world, pos, (Inventory)blockEntity);
                 world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
@@ -147,18 +133,11 @@ public class GoldHopperBlock extends BlockWithEntity {
     }
 
     public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return (BlockState)state.with(FACING, rotation.rotate((Direction)state.get(FACING)));
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation((Direction)state.get(FACING)));
-    }
-
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof GoldHopperBlockEntity) {
-            GoldHopperBlockEntity.onEntityCollided(world, pos, state, entity, (GoldHopperBlockEntity)blockEntity);
-        }
+        return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
     public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {

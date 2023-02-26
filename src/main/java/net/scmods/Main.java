@@ -5,8 +5,6 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.screenhandler.v1.FabricScreenHandlerFactory;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
@@ -18,7 +16,6 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.scmods.blocks.gold_hopper.GoldHopperBlock;
 import net.scmods.blocks.gold_hopper.GoldHopperBlockEntity;
-import net.scmods.blocks.gold_hopper.GoldHopperScreenHandler;
 
 public class Main implements ModInitializer {
 	public static final String MODID = "consistentimprovements";

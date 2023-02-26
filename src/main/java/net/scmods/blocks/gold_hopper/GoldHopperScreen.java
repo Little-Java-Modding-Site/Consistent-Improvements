@@ -7,15 +7,16 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.scmods.Main;
 
 @Environment(EnvType.CLIENT)
-public class GoldHopperScreen extends HandledScreen<GoldHopperScreenHandler> {
+public class GoldHopperScreen extends HandledScreen<ScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(Main.MODID, "textures/gui/container/gold_hopper.png");
 
-    public GoldHopperScreen(GoldHopperScreenHandler handler, PlayerInventory inventory, Text title) {
+    public GoldHopperScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.passEvents = false;
         this.backgroundHeight = 133;
